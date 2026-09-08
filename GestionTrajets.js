@@ -144,7 +144,7 @@ const trips = [
         departureTime: "12:00",
         arrivalTime: "15:00",
         price: 105,
-        availableSeats: 50
+        availableSeats: 0
     },
     {
         id: 17,
@@ -162,7 +162,7 @@ const trips = [
         departureTime: "18:30",
         arrivalTime: "20:30",
         price: 60,
-        availableSeats: 50
+        availableSeats: 0
     },
     {
         id: 19,
@@ -183,6 +183,7 @@ const trips = [
         availableSeats: 50
     }
 ];
+const tickets = []; 
 let choix ;
 // Affichage de menu 
 do
@@ -204,12 +205,91 @@ do
 
          switch(choix)
          {
-             case 1:  
+             case 1: 
+
+                     //afficher les trajets
                      afficherTrip();
                      break;
-             case 2:  //aaffichage b
-                     break;
-             case 3:  //aaffichage b
+
+
+
+
+
+
+             case 2:  
+                      // acheter un tickets 
+                      let nom=prompt("saisir le nom du passage :");
+                      let id=parseInt(prompt("saisir identifiant du trajet :"));
+                      let trajet=search(id);
+                     
+                      if(trajet ===false)
+                      {
+                            
+                         console.log("Trajet introuvable.");
+                      }
+                      else
+                      {
+                           let idCount=0;
+                        if(trips[trajet].availableSeats>0)
+                        {
+                             //pour diminuer le nombre de places disponibles 
+                             let tripPlaces=trips[trajet].availableSeats-1;
+                            
+                             
+                             //changer le nombre de place de le trajets saisie
+                            for(let i=0;i<trips.length;i++)
+                            {
+                                if(trips[i].id==id)
+                                {
+                                    trips[i].availableSeats=tripPlaces;
+                                    
+                                }
+                            }
+                              // attribuer automatiquement un numéro de place 
+
+                               let TotalSeats=0;
+                               for(let i=0;i<tickets.length;i++)
+                                {
+                               if(tickets[i].tripId==id) 
+                                {
+                                  TotalSeats+=1;   
+                                }
+                               }
+                                // attribuer automatiquement un numéro de place 
+                                 numberSeat=TotalSeats+1;
+                                 idCount=tickets.length+1;
+                                 //creer un ticket 
+                                  let ticket=new NewTicket(nom,id,idCount,numberSeat);
+                                  //afficher le ticket ajouter 
+                                  tickets.push(ticket);
+                                console.log(`
+                                            Ticket acheté avec succès. 
+                                           ------------------------------
+                                               Ticket   # ${idCount}
+                                               Passager : ${nom} 
+                                               Trajet   : ${trips[trajet].departure} → ${trips[trajet].destination}
+                                               Place    : ${numberSeat}
+                                               Prix     : ${trips[trajet].price}DH 
+                                          -------------------------------  
+                                    `);
+                            
+                     
+                        }
+                        else
+                        {
+                            console.log("Train complet. ");
+
+                        } 
+                     }
+                      break;
+
+
+
+
+
+             case 3: 
+                    //Afficher les tickets
+                    let 
                      break;
              case 4:  //aaffichage b
                      break;
@@ -237,20 +317,49 @@ console.log("============ TRAJETS DISPONIBLES ============");
     for(let i=0;i<trips.length;i++)
     {
         let id=trips[i].id;
-        let deput=trips[i].departure;
+        let depart=trips[i].departure;
+        let departureTime=trips[i].departureTime;
         let dest=trips[i].destination;
         let arrive=trips[i].arrivalTime;
         let prix=trips[i].price;
         let availSet=trips[i].availableSeats;
 
  console.log(`
-#${id} ${deput} → ${dest}
-Deput          : ${deput}
+#${id} ${depart} → ${dest}
+Deput           : ${departureTime}
 arrivé          : ${arrive}
-Prix           : ${prix} DH
+Prix            : ${prix} DH
 placesDisponible: ${availSet}
 --------------------------------- `);
          
         
     }
 }
+
+//rechercher sur un trajets
+function search(id)
+{
+    let result;
+    
+   for(let i=0;i<trips.length;i++)
+    {
+        if(trips[i].id==id)
+        {
+           
+            return i
+        }
+ }
+      return false;
+}
+
+//ajouter ticket
+function NewTicket(nomPassage,id,idCount,placesClass)
+{
+  
+    this.id=idCount;
+    this.nomPassage=nomPassage;
+    this.tripId=id
+    this.seatNumber=placesClass;
+    this.price=trips[id].price;
+} 
+    
