@@ -1,34 +1,3 @@
-function TicketName()
-{
-    let nom=prompt("enter le nom de passage :");
-    let result=false;
-    console.log(`
-                    ============ TICKETS ============== `)
-                for(let i=0;i<tickets.length;i++)
-                { 
-                    if(tickets[i].nomPassage===nom)
-                    {
-                        result=true;
-                        let indexTrip=search(tickets[i].tripId);
-                        depart=trips[indexTrip].departure;
-                        final=trips[indexTrip].destination;
-                    console.log(`
-                        
-                        Ticket #${tickets[i].id} 
-                        Passager : ${nom} 
-                        Trajet   : ${depart} → ${final}
-                        Place    : ${tickets[i].seatNumber}
-                        Prix     : ${tickets[i].price} DH
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                               `);
-                    }
-                   
-                }
-                if(!result)
-                {
-                    console.log("       Aucun Ticket....");
-                }
-}
 
 function filterCity()
 {
@@ -57,4 +26,4 @@ console.log(` ---------------------------------`);
 
 }
  filterCity();
-  TicketName();
+
