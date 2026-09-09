@@ -233,8 +233,9 @@ do
                         if(trips[trajet].availableSeats>0)
                         {
                              //pour diminuer le nombre de places disponibles 
+                             //et prener le prix de trajet
                              let tripPlaces=trips[trajet].availableSeats-1;
-                            
+                             let prix=trips[trajet].price;
                              
                              //changer le nombre de place de le trajets saisie
                             for(let i=0;i<trips.length;i++)
@@ -259,7 +260,7 @@ do
                                  numberSeat=TotalSeats+1;
                                  idCount=tickets.length+1;
                                  //creer un ticket 
-                                  let ticket=new NewTicket(nom,id,idCount,numberSeat);
+                                  let ticket=new NewTicket(nom,id,idCount,numberSeat,prix);
                                   //afficher le ticket ajouter 
                                   tickets.push(ticket);
                                 console.log(`
@@ -269,7 +270,7 @@ do
                                                Passager : ${nom} 
                                                Trajet   : ${trips[trajet].departure} → ${trips[trajet].destination}
                                                Place    : ${numberSeat}
-                                               Prix     : ${trips[trajet].price}DH 
+                                               Prix     : ${prix}DH 
                                           -------------------------------  
                                     `);
                             
@@ -291,7 +292,9 @@ do
                     //Afficher les tickets
                      AfficherTicket();
                      break;
-             case 4:  //aaffichage b
+             case 4:  
+                    //aaffichage b
+                    deleteTicket();
                      break;
              case 5:  //aaffichage b
                      break;
@@ -353,14 +356,14 @@ function search(id)
 }
 
 //ajouter ticket
-function NewTicket(nomPassage,id,idCount,placesClass)
+function NewTicket(nomPassage,id,idCount,placesClass,prix)
 {
   
     this.id=idCount;
     this.nomPassage=nomPassage;
     this.tripId=id
     this.seatNumber=placesClass;
-    this.price=trips[id].price;
+    this.price=prix;
 } 
     
 //fonction pour Afficher tous les tickets 
@@ -398,4 +401,23 @@ function AfficherTicket()
      {
         console.log("**********Aucun ticket enregistré.************");
      }
+}
+//annulation d'un ticket 
+
+function deleteTicket()
+{
+    let idTicket=Number(prompt("saisir l'identifiant du ticket :"))
+    for(let i=0;i<tickets.length;i++)
+    {
+        if(tickets[i].id==id)
+        {
+            console.log(tickets[i]);
+            break;
+        }
+        else
+        {
+            console.log("Ticket introuvable. ");
+            break;
+        }
+    }
 }
