@@ -350,7 +350,7 @@ do
                      break;
              case 6:  
                     // Filtrer les trajets 
-                    
+                      filterCity();
                      break;
              case 7:  //aaffichage b
                      break;
@@ -532,3 +532,36 @@ function TicketName()
                 }
 }
 
+function filterCity()
+{
+    let city=prompt("enter la ville de depart :");
+    console.log("=======ville de dipart :"+city+"=========");
+    let result=false;
+    for(let i=0;i<trips.length;i++)
+    {
+        
+        if(trips[i].departure===city)
+        {
+            result=true;  
+        // let depart=trips[i].departure;
+        
+           let dest=trips[i].destination;
+          
+           let prix=trips[i].price;
+           console.log(`
+            ${city}  → ${dest} : ${prix} DH `);
+        
+        }
+       
+            
+        }
+
+        if(!result)
+        {
+             console.log("Desolée pas Disponible maintenant");
+        }
+console.log(` ---------------------------------`);
+   
+    
+
+}
