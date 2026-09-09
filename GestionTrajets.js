@@ -289,7 +289,7 @@ do
 
              case 3: 
                     //Afficher les tickets
-                    let 
+                     AfficherTicket();
                      break;
              case 4:  //aaffichage b
                      break;
@@ -363,3 +363,39 @@ function NewTicket(nomPassage,id,idCount,placesClass)
     this.price=trips[id].price;
 } 
     
+//fonction pour Afficher tous les tickets 
+
+function AfficherTicket()
+{
+     let taille=tickets.length;
+     if(taille != 0 )
+     {
+        
+        let depart;
+        let final;
+        console.log(`
+            ============ TICKETS ============== `)
+        for(let i=0;i<tickets.length;i++)
+        {
+            let indexTrip=search(tickets[i].tripId);
+            depart=trips[indexTrip].departure;
+            final=trips[indexTrip].destination;
+           
+           
+            console.log(`
+               
+             Ticket #${tickets[i].id} 
+             Passager : ${tickets[i].nomPassage} 
+             Trajet   : ${depart} → ${final}
+             Place    : ${tickets[i].seatNumber}
+             Prix     : ${tickets[i].price} DH
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `);
+            
+        }
+     }
+     else
+     {
+        console.log("**********Aucun ticket enregistré.************");
+     }
+}
