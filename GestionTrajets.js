@@ -144,7 +144,7 @@ const trips = [
         departureTime: "12:00",
         arrivalTime: "15:00",
         price: 105,
-        availableSeats: 0
+        availableSeats: 50
     },
     {
         id: 17,
@@ -162,7 +162,7 @@ const trips = [
         departureTime: "18:30",
         arrivalTime: "20:30",
         price: 60,
-        availableSeats: 0
+        availableSeats: 50
     },
     {
         id: 19,
@@ -202,6 +202,7 @@ do
                   5. Rechercher un ticket 
                   6. Filtrer les trajets 
                   7. Trier les trajets
+                  8. Statistiques
                   0. Quitter  `);
          choix=Number(prompt("Votre choix :"));
 
@@ -352,8 +353,28 @@ do
                     // Filtrer les trajets 
                       filterCity();
                      break;
-             case 7:  //aaffichage b
+             case 7:  
+                     //trier le trajet par prix 
+                     console.log(`
+                          1.Croisent
+                          2.Decroisent`)
+                     let trie=Number(prompt(`Enter l'order tu veux :`));
+                    switch(trie)
+                    {
+                        case 1: TrierTripsCr(); break;
+                        case 2: TrierTripsDr(); break;
+                        default:
+                             console.log("le choix pas correct ") 
+                       
+
+                    }
+                     
+                     
                      break;
+             case 8:
+                    //Statistiques
+                    bonus();
+                    break;
              case 0:  console.log("A bientot..");
                      break;
             default:
@@ -562,6 +583,129 @@ function filterCity()
         }
 console.log(` ---------------------------------`);
    
+    
+
+}
+
+function TrierTripsCr()
+{
+   
+    for(let i=1;i<trips.length;i++)
+    {
+        for(let j=0;j<trips.length-1;j++)
+        {
+            if(trips[j].price>trips[j+1].price)
+            {
+               let cle=trips[j];
+               trips[j]=trips[j+1];
+               trips[j+1]=cle;
+              
+
+            }
+        }
+         
+        
+    }
+    for(let i=0;i<trips.length;i++)
+         {
+             let depart=trips[i].departure;
+               let dest=trips[i].destination;
+               let prix=trips[i].price;
+               console.log(`
+                ${depart}  → ${dest} : ${prix} DH  `);
+         }
+}
+function TrierTripsDr()
+{
+   
+    for(let i=1;i<trips.length;i++)
+    {
+        for(let j=0;j<trips.length-1;j++)
+        {
+            if(trips[j].price<trips[j+1].price)
+            {
+               let cle=trips[j];
+               trips[j]=trips[j+1];
+               trips[j+1]=cle;
+              
+
+            }
+        }
+         
+        
+    }
+    for(let i=0;i<trips.length;i++)
+         {
+             let depart=trips[i].departure;
+               let dest=trips[i].destination;
+               let prix=trips[i].price;
+               console.log(`
+                ${depart}  → ${dest} : ${prix} DH  `);
+         }
+}
+
+// Part Bonuse 
+function bonus()
+{
+    let TotalTicket=0;
+    let SomePrice=0;
+    let Count=0;
+    console.log(`
+=================== Statistique ==================`);
+    // Nombre total de tickets vendus 
+    for(let i=0;i<tickets.length;i++)
+    {
+        TotalTicket++;
+    }
+     console.log(` 
+Nombre total de tickets vendus :${TotalTicket}`);
+    for(let i=0;i<tickets.length;i++)
+    {
+        SomePrice+=tickets[i].price;
+       
+    }
+    console.log(`
+Chiffre d'affaires total :  :${SomePrice}`);
+    let min =trips[0].availableSeats;
+    let id;
+    
+   
+    for(let i=0;i<trips.length;i++)
+    {
+        if(trips[i].availableSeats<min)
+        {
+            min=trips[i].availableSeats
+            id=trips[i].id;
+            
+        }
+        
+        
+    }
+    
+    for(let i=0;i<tickets.length;i++)
+    {
+        if(tickets[i].tripId===id)
+        {
+            Count++;
+        }
+    }
+       for (let i = 0; i < trips.length; i++) {
+          if(trips[i].id===id)
+          {
+            
+             console.log(`
+ le trajet le plus vendu :
+    ${trips[i].departure} → ${trips[i].destination }
+    ${Count} tickets vendus `);
+          }
+        
+       }
+       
+     
+      
+        
+  console.log(`
+=================== ========== ==================`);
     
 
 }
