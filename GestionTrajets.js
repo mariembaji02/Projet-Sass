@@ -9,7 +9,7 @@ const trips = [
         departureTime: "07:30",
         arrivalTime: "08:30",
         price: 25,
-        availableSeats: 50
+        availableSeats: 47
     },
     {
         id: 2,
@@ -18,7 +18,7 @@ const trips = [
         departureTime: "08:00",
         arrivalTime: "10:30",
         price: 90,
-        availableSeats: 50
+        availableSeats: 48
     },
     {
         id: 3,
@@ -183,9 +183,44 @@ const trips = [
         availableSeats: 50
     }
 ];
-const tickets = [];
+const tickets = [
+    {
+        id: 1,
+        nomPassage:"mohammed",
+        tripId: 1,
+        seatNumber: 1,
+        price: 25
+    },
+    {
+        id: 2,
+        nomPassage:"yassine",
+        tripId: 1,
+        seatNumber: 2,
+        price: 25
+    },
+    {
+        id: 3,
+        nomPassage:"sara",
+        tripId: 1,
+        seatNumber: 3,
+        price: 25
+    },
+    {
+        id: 4,
+        nomPassage:"anas",
+        tripId: 2,
+        seatNumber: 1,
+        price: 90
+    },
+    {
+        id: 5,
+        nomPassage:"amine",
+        tripId: 2,
+        seatNumber: 2,
+        price: 90
+    }];
 let  CancelTicket=[];
-let idticket=0;
+let idticket=5;
 let choix ;
 // Affichage de menu
 do
@@ -216,125 +251,7 @@ do
 
              case 2:  
                       // acheter un tickets 
-                      let nom=prompt("saisir le nom du passage :");
-                      let id=parseInt(prompt("saisir identifiant du trajet :"));
-                      let trajet=search(id);
-                      
-                      if(trajet ===false)
-                      {
-                            
-                         console.log("Trajet introuvable.");
-                      }
-                      else
-                      {
-                        
-                         let result=false;
-                        //  let idticket=tickets[index].id;
-                        for(let x=0;x<CancelTicket.length;x++)
-                        {
-                          
-                            if(CancelTicket.length!=0 && CancelTicket[x].tripId===id)
-                             {
-                                       
-                               result=true;
-                               break;
-                             }
-                        }
-                         if(result)
-                         {
-                             let ticket;
-                             let place;
-                             let price;
-                            //ajoutiw lih gha smiya ms ghadi ib9a lina nfse traji onfse 
-                              for(let i=0;i<CancelTicket.length;i++)
-                              {
-                                   if(CancelTicket[i].tripId==id)
-                                   {
-                                        ticket=i;
-                                        place=CancelTicket[i].seatNumber;
-                                        price=CancelTicket[i].price;
-                                        break;
-  
-                                   }
-                              }
-                                
-                             idticket++;
-                             ticket=new NewTicket(nom,id,idticket,place,price);
-                                            //afficher le ticket ajouter 
-                                            tickets.push(ticket);
-                                            console.log(`
-                                                            Ticket acheté avec succès. 
-                                                        ------------------------------
-                                                            Ticket   # ${idticket}
-                                                            Passager : ${nom} 
-                                                            Trajet   : ${trips[trajet].departure} → ${trips[trajet].destination}
-                                                            Place    : ${place}
-                                                            Prix     : ${price}DH 
-                                                        -------------------------------  
-                                                    `);
-                                  
-                                  CancelTicket.splice(ticket,1);
-                                 
-                                  console.log(CancelTicket);
-                         }
-                         else
-                         {
-                             if(trips[trajet].availableSeats>0)
-                             {
-                                        //pour diminuer le nombre de places disponibles 
-                                        //et prener le prix de trajet
-                                        let tripPlaces=trips[trajet].availableSeats-1;
-                                       
-                                
-                                        //changer le nombre de place de le trajets saisie
-                                        for(let i=0;i<trips.length;i++)
-                                        {
-                                            if(trips[i].id==id)
-                                            {
-                                                trips[i].availableSeats=tripPlaces;
-                                                
-                                            }
-                                        }
-                                        // attribuer automatiquement un numéro de place 
-
-                                        let TotalSeats=0;
-                                        for(let i=0;i<tickets.length;i++)
-                                            {
-                                           if(tickets[i].tripId==id) 
-                                            {
-                                               TotalSeats+=1;   
-                                            }
-                                        }
-                                         
-                                            // attribuer automatiquement un numéro de place 
-                                            numberSeat=TotalSeats+1;
-                                            
-                                            idticket++;
-                                            //creer un ticket 
-                                             let prix=trips[trajet].price;
-                                            let ticket=new NewTicket(nom,id,idticket,numberSeat,prix);
-                                            //afficher le ticket ajouter 
-                                            tickets.push(ticket);
-                                            console.log(`
-                                                            Ticket acheté avec succès. 
-                                                        ------------------------------
-                                                            Ticket   # ${idticket}
-                                                            Passager : ${nom} 
-                                                            Trajet   : ${trips[trajet].departure} → ${trips[trajet].destination}
-                                                            Place    : ${numberSeat}
-                                                            Prix     : ${prix}DH 
-                                                        -------------------------------  
-                                                    `);
-                                            
-                                    
-                                        }
-                                        else
-                                        {
-                                            console.log("Train complet. ");
-
-                                        } }
-                      
-                        }
+                       achter();
                       break;
 
              case 3: 
@@ -376,7 +293,7 @@ do
                     bonus();
                     break;
              case 0:  console.log("A bientot..");
-                     break;
+                      break;
             default:
                 console.log("Tu dois Enter nombre enter 1 et 7");
 
@@ -439,11 +356,137 @@ function NewTicket(nomPassage,id,idCount,placesClass,prix)
     this.price=prix;
 } 
     
+//achter un ticket 
+function achter()
+{
+                      let nom=prompt("saisir le nom du passage :");
+                      let id=parseInt(prompt("saisir identifiant du trajet :"));
+                      let trajet=search(id);
+                      
+                      if(trajet ===false)
+                      {
+                            
+                         console.log("Trajet introuvable.");
+                      }
+                      else
+                      {
+                        
+                         let result=false;
+                        //  let idticket=tickets[index].id;
+                        for(let x=0;x<CancelTicket.length;x++)
+                        {
+                          
+                            if(CancelTicket.length!=0 && CancelTicket[x].tripId===id)
+                             {
+                                       
+                               result=true;
+                               break;
+                             }
+                        }
+                         if(result)
+                         {
+                             let ticketidx;//pour prendre l'index de ticket 
+                             let place;
+                             let price;
+                            //on a le meme trajet on mofifier justement le nom
+                              for(let i=0;i<CancelTicket.length;i++)
+                              {
+                                   if(CancelTicket[i].tripId==id)
+                                   {
+                                        ticketidx=i;
+                                        place=CancelTicket[i].seatNumber;
+                                        price=CancelTicket[i].price;
+                                        break;
+  
+                                   }
+                              }
+                              //demunier le numbre de place 
+                             trips[trajet].availableSeats--;
+                             //id ticket ++
+                             idticket++;
+                             let ticket=new NewTicket(nom,id,idticket,place,price);
+                                            //afficher le ticket ajouter 
+                                            tickets.push(ticket);
+                                            console.log(`
+                                                            Ticket acheté avec succès. 
+                                                        ------------------------------
+                                                            Ticket   # ${idticket}
+                                                            Passager : ${nom} 
+                                                            Trajet   : ${trips[trajet].departure} → ${trips[trajet].destination}
+                                                            Place    : ${place}
+                                                            Prix     : ${price}DH 
+                                                        -------------------------------  
+                                                    `);
+                                //supprimer le ticket dans le table 
+                                  CancelTicket.splice(ticketidx,1);
+                                 
+                                
+                         }
+                         else
+                         {
+                             if(trips[trajet].availableSeats>0)
+                             {
+                                        //pour diminuer le nombre de places disponibles 
+                                        
+                                        let tripPlaces=trips[trajet].availableSeats-1;
+                                       
+                                
+                                        //changer le nombre de place de le trajets saisie
+                                        // for(let i=0;i<trips.length;i++)
+                                        // {
+                                        //     if(trips[i].id==id)
+                                        //     {
+                                        //         trips[i].availableSeats=tripPlaces;
+                                                
+                                        //     }
+                                        // }
+                                        // attribuer automatiquement un numéro de place 
+
+                                        let TotalSeats=0;
+                                        for(let i=0;i<tickets.length;i++)
+                                            {
+                                           if(tickets[i].tripId==id) 
+                                            {
+                                               TotalSeats+=1;   
+                                            }
+                                        }
+                                         
+                                            // attribuer automatiquement un numéro de place 
+                                            numberSeat=TotalSeats+1;
+                                            
+                                            idticket++;
+                                            //creer un ticket 
+                                             let prix=trips[trajet].price;
+                                            let ticket=new NewTicket(nom,id,idticket,numberSeat,prix);
+                                            //afficher le ticket ajouter 
+                                            tickets.push(ticket);
+                                            console.log(`
+                                                            Ticket acheté avec succès. 
+                                                        ------------------------------
+                                                            Ticket   # ${idticket}
+                                                            Passager : ${nom} 
+                                                            Trajet   : ${trips[trajet].departure} → ${trips[trajet].destination}
+                                                            Place    : ${numberSeat}
+                                                            Prix     : ${prix}DH 
+                                                        -------------------------------  
+                                                    `);
+                                            
+                                    
+                                        }
+                                        else
+                                        {
+                                            console.log("Train complet. ");
+
+                                        } }
+                      
+                        }
+}
 //fonction pour Afficher tous les tickets 
 
 function AfficherTicket()
 {
      let taille=tickets.length;
+     
      if(taille != 0 )
      {
         
@@ -480,7 +523,7 @@ function AfficherTicket()
 function deleteTicket()
 {
     let idTicket=Number(prompt("saisir l'identifiant du ticket :"))
-    console.log("id given "+idTicket)
+   
      let result =false;
      let index;
     for(let i=0;i<tickets.length;i++)
@@ -512,6 +555,8 @@ function deleteTicket()
              }
               //supprimer ticket
               tickets.splice(index,1);
+              console.log("Le ticket annuler !!");
+
     }
     else
       {
@@ -665,11 +710,11 @@ Nombre total de tickets vendus :${TotalTicket}`);
        
     }
     console.log(`
-Chiffre d'affaires total :  :${SomePrice}`);
+Chiffre d'affaires total :  :${SomePrice} DH`);
     let min =trips[0].availableSeats;
-    let id;
+    let id=trips[0].id;
     
-   
+     //chercher le min
     for(let i=0;i<trips.length;i++)
     {
         if(trips[i].availableSeats<min)
@@ -682,6 +727,7 @@ Chiffre d'affaires total :  :${SomePrice}`);
         
     }
     
+    
     for(let i=0;i<tickets.length;i++)
     {
         if(tickets[i].tripId===id)
@@ -690,7 +736,7 @@ Chiffre d'affaires total :  :${SomePrice}`);
         }
     }
        for (let i = 0; i < trips.length; i++) {
-          if(trips[i].id===id)
+          if(trips[i].availableSeats===min)
           {
             
              console.log(`
